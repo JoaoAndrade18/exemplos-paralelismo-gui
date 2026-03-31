@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Demo de Paralelismo — Ponto de entrada principal.
 

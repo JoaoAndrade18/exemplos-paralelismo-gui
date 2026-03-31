@@ -1,5 +1,5 @@
 """
-gui/thread_window.py — Modo Threads (reescrito).
+gui/thread_window.py — Modo Threads.
 
 Conceitos demonstrados:
   • Múltiplos receptores, cada um rodando em sua própria thread
@@ -489,9 +489,14 @@ class ThreadWindow:
 
         self._recv_container.bind("<Configure>", _on_configure)
         canvas.bind("<Configure>", _on_configure)
-        canvas.bind_all("<MouseWheel>", lambda e: canvas.yview_scroll(
-            int(-1 * (e.delta / 120)), "units"
-        ))
+        def _on_mousewheel(e):
+            try:
+                canvas.yview_scroll(int(-1 * (e.delta / 120)), "units")
+            except tk.TclError:
+                pass   # janela já destruída
+
+        canvas.bind("<Enter>",  lambda _: canvas.bind_all("<MouseWheel>", _on_mousewheel))
+        canvas.bind("<Leave>",  lambda _: canvas.unbind_all("<MouseWheel>"))
         self._recv_canvas = canvas
 
     # ── painel monitor ───────────────────────────────────────────────────────
@@ -854,6 +859,10 @@ class ThreadWindow:
 
     def _on_close(self):
         self._running = False
+        try:
+            self.win.unbind_all("<MouseWheel>")
+        except tk.TclError:
+            pass
         for rp in self._receivers:
             rp.stop()
         self.win.destroy()

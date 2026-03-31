@@ -14,6 +14,23 @@ import time
 from typing import Callable, Optional
 
 
+# ── workers para demo com multiprocessing (devem ser top-level para pickle) ──
+
+def _mp_worker_unsafe(counter, n):
+    """Incrementa counter.value SEM lock (race condition real entre processos)."""
+    for _ in range(n):
+        val = counter.value   # lê
+        counter.value = val + 1  # escreve sem lock → race condition
+
+
+def _mp_worker_safe(counter, lock, n):
+    """Incrementa counter.value COM lock (resultado sempre correto)."""
+    for _ in range(n):
+        with lock:
+            val = counter.value
+            counter.value = val + 1
+
+
 class MutexManager:
     def __init__(self):
         self._lock = threading.Lock()

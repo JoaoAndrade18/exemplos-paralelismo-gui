@@ -17,7 +17,7 @@ class LauncherWindow:
         self.root.title("Demo de Paralelismo")
         self.root.configure(bg=BG)
         self.root.resizable(False, False)
-        self._center(520, 440)
+        self._center(780, 460)
         self._build()
 
     def _center(self, w, h):
@@ -80,8 +80,24 @@ class LauncherWindow:
             col=1,
         )
 
+        self._card(
+            cards,
+            icon="🔬",
+            title="Demos de Paralelismo",
+            desc=(
+                "5 demonstrações interativas:\n"
+                "Race Condition (Thread/Processo),\n"
+                "Deadlock, Semáforo, Barreira\n"
+                "e Thread Pool."
+            ),
+            color=ACCENT_GREEN,
+            command=self._open_demos,
+            col=2,
+        )
+
         cards.columnconfigure(0, weight=1, pad=10)
         cards.columnconfigure(1, weight=1, pad=10)
+        cards.columnconfigure(2, weight=1, pad=10)
 
         # ── rodapé ───────────────────────────────────────────────────────────
         footer = tk.Frame(root, bg=BG)
@@ -122,6 +138,11 @@ class LauncherWindow:
     def _open_processes(self):
         from gui.process_window import ProcessWindow
         win = ProcessWindow(self.root)
+        win.show()
+
+    def _open_demos(self):
+        from gui.demos_window import DemosWindow
+        win = DemosWindow(self.root)
         win.show()
 
     def run(self):
