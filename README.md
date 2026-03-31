@@ -35,7 +35,7 @@ Duas ou mais interfaces no mesmo processo (mesmo PID), cada receptor em uma thre
 | **Enviar Arquivo →** | Envia o arquivo selecionado |
 | Status embaixo | Mostra se está aguardando ACK ou pronto |
 
-#### Modos de envio (o mais importante para a aula)
+#### Modos de envio
 
 **PARALELO (padrão)**
 - Cada mensagem enviada ganha uma **thread própria** que aguarda o ACK.
@@ -150,30 +150,6 @@ Cada thread tem delay aleatório na fase 1 — dá para ver threads mais rápida
 | Spinner **Nº de tarefas** | M tarefas a processar |
 
 Os TIDs no log mostram a reutilização de threads no modo pool vs TIDs únicos no modo "nova thread por tarefa".
-
----
-
-## Roteiro sugerido para a aula
-
-1. **Threads básico**: abra o Modo Threads, envie um texto, aponte os TIDs diferentes no remetente e no receptor.
-
-2. **Fila**: adicione 3 receptores, coloque delay de 3 s em todos, mude para **Broadcast**, envie 5 mensagens seguidas no modo Paralelo. Veja as barras de fila enchendo e os ACKs chegando fora de ordem no log.
-
-3. **Síncrono vs Paralelo**: troque para modo **Síncrono**, envie para um receptor com delay de 4 s — o botão trava. Explique o custo de bloqueio.
-
-4. **Processos**: abra o Modo Processos, inicie o receptor, compare os PIDs nas duas janelas. Envie uma imagem e mostre que ela é salva no disco pelo outro processo.
-
-5. **Race Condition**: abra Demos → Race Condition, desative o mutex, use 8 threads e 500 incrementos — mostre o resultado errado. Ative o mutex e repita — resultado correto. Repita com Processos para ver race condition real entre núcleos.
-
-6. **Deadlock**: mostre o "sem timeout" (threads travam), depois o "com timeout" (detecta e reporta). Discuta estratégias de prevenção.
-
-7. **Semáforo**: configure 3 slots e 10 workers — mostre que nunca mais de 3 ficam verdes ao mesmo tempo.
-
-8. **Barreira**: mostre threads de velocidades diferentes se sincronizando antes de avançar juntas.
-
-9. **Thread Pool**: compare tempo e TIDs do pool vs nova thread por tarefa.
-
----
 
 ## Estrutura do código
 
