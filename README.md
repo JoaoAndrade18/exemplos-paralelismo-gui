@@ -1,1 +1,1 @@
-# exemplos-paralelismo-gui
+# Demo Paralelismo GUI
